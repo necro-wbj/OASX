@@ -120,6 +120,10 @@ self.addEventListener("activate", function(event) {
 // The fetch handler redirects requests for RESOURCE files to the service
 // worker cache.
 self.addEventListener("fetch", (event) => {
+  // Let the page send cross-origin requests itself so Chrome can show the Local Network Access prompt.
+  if (new URL(event.request.url).origin !== self.location.origin) {
+    return;
+  }
   if (event.request.method !== 'GET') {
     return;
   }
